@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mini Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* ---------- Base layout ---------- */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      transition: background 0.4s ease;
+    }
+
+    /* ---------- Login card ---------- */
+    .card {
+      width: 320px;
+      padding: 32px;
+      text-align: center;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      animation: pop 0.4s ease;
+    }
+    .card h2   { margin: 0 0 24px; color: #4b4b4b; font-weight: 600; }
+    .card input,
+    .card button {
+      width: 100%;
+      font-size: 16px;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      border: 1px solid #ddd;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .card input:focus { border-color: #667eea; }
+    .card button {
+      cursor: pointer;
+      color: #fff;
+      border: none;
+      background: #667eea;
+      transition: background 0.2s;
+    }
+    .card button:hover { background: #586adb; }
+    #error {
+      margin-top: 12px;
+      color: #e53e3e;
+      display: none;
+    }
+
+    /* ---------- Admin panel ---------- */
+    #admin-panel {
+      display: none;                 /* hidden until login succeeds */
+      height: 100vh;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+    .panel-card {
+      width: 480px;
+      padding: 32px;
+      text-align: center;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      animation: pop 0.4s ease;
+    }
+    .panel-card h1 { margin-top: 0; color: #667eea; }
+
+    /* ---------- Small pop animation ---------- */
+    @keyframes pop {
+      0%   { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login form -->
+  <div id="login-card" class="card">
+    <h2>Admin Login</h2>
+    <input id="username" type="text" placeholder="Username" autocomplete="off" />
+    <input id="password" type="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+    <p id="error">Invalid credentials</p>
+  </div>
+
+  <!-- Admin panel (hidden by default) -->
+  <div id="admin-panel">
+    <div class="panel-card">
+      <h1>Welcome, Admin!</h1>
+      <p>This is your minimal admin panel — add controls and content here.</p>
+    </div>
+  </div>
+
+  <script>
+    function login () {
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value;
+
+      if (user === 'admin' && pass === 'admin') {
+        // Hide login, show panel, change background
+        document.getElementById('login-card').style.display  = 'none';
+        const panel = document.getElementById('admin-panel');
+        panel.style.display = 'flex';
+        document.body.style.background = '#f3f4f6';
+      } else {
+        // Show error message
+        document.getElementById('error').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
