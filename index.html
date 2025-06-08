@@ -2,120 +2,191 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Mini Admin Panel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Tiny Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    /* ---------- Base layout ---------- */
-    * { box-sizing: border-box; }
+    :root {
+      --bg: #f6f8fa;
+      --primary: #2563eb;
+      --text: #1f2937;
+      --card-bg: #ffffff;
+      --radius: 12px;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      height: 100vh;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .container {
+      width: min(800px, 90%);
+      margin: 0 auto;
+      padding: 2rem 0 4rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    h1,
+    h2 {
+      color: var(--primary);
+      margin-top: 0;
+    }
+
+    .login-wrapper {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      transition: background 0.4s ease;
+      height: 100vh;
     }
 
-    /* ---------- Login card ---------- */
-    .card {
+    .login-card {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
       width: 320px;
-      padding: 32px;
-      text-align: center;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      animation: pop 0.4s ease;
     }
-    .card h2   { margin: 0 0 24px; color: #4b4b4b; font-weight: 600; }
-    .card input,
-    .card button {
+
+    .login-card input {
       width: 100%;
-      font-size: 16px;
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin-bottom: 16px;
-      border: 1px solid #ddd;
-      outline: none;
-      transition: border-color 0.2s;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: var(--radius);
+      font-size: 1rem;
     }
-    .card input:focus { border-color: #667eea; }
-    .card button {
-      cursor: pointer;
+
+    .login-card button {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--primary);
       color: #fff;
       border: none;
-      background: #667eea;
-      transition: background 0.2s;
-    }
-    .card button:hover { background: #586adb; }
-    #error {
-      margin-top: 12px;
-      color: #e53e3e;
-      display: none;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
     }
 
-    /* ---------- Admin panel ---------- */
-    #admin-panel {
-      display: none;                 /* hidden until login succeeds */
-      height: 100vh;
-      width: 100%;
-      align-items: center;
-      justify-content: center;
+    .login-card button:hover {
+      background: #1d4ed8;
     }
-    .panel-card {
-      width: 480px;
-      padding: 32px;
+
+    footer {
       text-align: center;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      animation: pop 0.4s ease;
+      font-size: 0.875rem;
+      margin-top: 2rem;
+      color: #4b5563;
     }
-    .panel-card h1 { margin-top: 0; color: #667eea; }
 
-    /* ---------- Small pop animation ---------- */
-    @keyframes pop {
-      0%   { transform: scale(0.9); opacity: 0; }
-      100% { transform: scale(1);   opacity: 1; }
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
-
-  <!-- Login form -->
-  <div id="login-card" class="card">
-    <h2>Admin Login</h2>
-    <input id="username" type="text" placeholder="Username" autocomplete="off" />
-    <input id="password" type="password" placeholder="Password" />
-    <button onclick="login()">Login</button>
-    <p id="error">Invalid credentials</p>
+  <!-- Login Screen -->
+  <div id="login" class="login-wrapper">
+    <div class="login-card">
+      <h2 style="text-align: center">Sign In</h2>
+      <input type="text" id="username" placeholder="Username" autocomplete="off" />
+      <input type="password" id="password" placeholder="Password" autocomplete="off" />
+      <button id="loginBtn">Login</button>
+      <p id="error" style="color: #ef4444; text-align: center; display: none">Wrong credentials</p>
+    </div>
   </div>
 
-  <!-- Admin panel (hidden by default) -->
-  <div id="admin-panel">
-    <div class="panel-card">
-      <h1>Welcome, Admin!</h1>
-      <p>This is your minimal admin panel — add controls and content here.</p>
+  <!-- Blog Content -->
+  <div id="blog" style="display: none">
+    <div class="container">
+      <h1>My Tiny Blog</h1>
+
+      <div class="card">
+        <h2>Welcome!</h2>
+        <p>
+          This is a minimalist single‑file blog. You can add your stories here and
+          keep everything simple.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>First Post</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+          viverra, purus vel tristique blandit, eros arcu congue orci, quis
+          tincidunt leo purus et urna.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Another Day, Another Post</h2>
+        <p>
+          Curabitur vitae libero a ex interdum molestie. Integer id elit risus.
+          Quisque a odio at ipsum dapibus gravida.
+        </p>
+      </div>
+
+      <footer>
+        &copy; 2025
+        <a
+          href="fFmStRMZsTpvWhK3"
+          target="_blank"
+          rel="noopener noreferrer"
+          >LinkedIn</a
+        >.
+        All rights reserved.
+      </footer>
     </div>
   </div>
 
   <script>
-    function login () {
-      const user = document.getElementById('username').value.trim();
-      const pass = document.getElementById('password').value;
+    const loginBtn = document.getElementById('loginBtn');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const errorTxt = document.getElementById('error');
 
-      if (user === 'admin' && pass === 'admin') {
-        // Hide login, show panel, change background
-        document.getElementById('login-card').style.display  = 'none';
-        const panel = document.getElementById('admin-panel');
-        panel.style.display = 'flex';
-        document.body.style.background = '#f3f4f6';
+    loginBtn.addEventListener('click', () => {
+      const u = usernameInput.value.trim();
+      const p = passwordInput.value.trim();
+      if (u === 'admin1' && p === 'admin2') {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('blog').style.display = 'block';
       } else {
-        // Show error message
-        document.getElementById('error').style.display = 'block';
+        errorTxt.style.display = 'block';
       }
-    }
+    });
+
+    // Enable "Enter" key to submit
+    passwordInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') loginBtn.click();
+    });
   </script>
 </body>
 </html>
